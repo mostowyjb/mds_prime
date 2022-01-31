@@ -50,11 +50,11 @@ async function updateMovie(mv, id) {
         synopsis : mv.synopsis,
         realisator : mv.realisator
     };
-    if(mv.id)
+    if(mv.id_actors)
     {
         mv.id_actors.forEach(function(item){
             let actorMvie = new ActorMovie();
-            actorMvie.build({id_movies: id , id_actors: item}).save();
+            let am =  actorMvie.build({id_movies: id , id_actors: item}).save();
         });
     }
     return Movie().update(updateMovie, { where: { id: id } });
