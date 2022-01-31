@@ -1,8 +1,28 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
+
+module.exports = function() {
+  const Sequelize = require("sequelize");
+  const DataTypes = require('mysql');
+  const sequelize = new Sequelize("projet_crud", "root", "", {
+    host: "127.0.0.1",
+    dialect: "mysql",
+    operatorsAliases: false,
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000
+    }
+  });
+  
+  // const sequelize = require('./database/db_config');
+  sequelize.authenticate().then(() => {
+      console.log('Database connected...');
+  }).catch(err => {
+      console.log('Error: ' + err);
+  })
   return sequelize.define('movies_actors', {
     id_movies: {
-      type: DataTypes.INTEGER,
+      type: Sequelize.INTEGER,
       allowNull: false,
       primaryKey: true,
       references: {
@@ -11,7 +31,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     id_actors: {
-      type: DataTypes.INTEGER,
+      type: Sequelize.INTEGER,
       allowNull: false,
       primaryKey: true,
       references: {
